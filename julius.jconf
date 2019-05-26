@@ -1,0 +1,15 @@
+# Julius 設定ファイル：音声キーワード認識版
+    -v /home/pi/julius-kit/dictation-kit-master/model/lang_m/bccwj.60k.htkdic          #単語辞書ファイル
+    -h /home/pi/julius-kit/grammar-kit-master/model/phone_m/hmmdefs_ptm_gid.binhmm   # PTM triphone
+-hlist /home/pi/julius-kit/grammar-kit-master/model/phone_m/logicalTri
+#-h /home/pi/julius-kit/dictation-kit-master/model/phone_m/jnas-tri-3k16-gid.binhmm #音響HMM定義ファイル
+#-hlist /home/pi/julius-kit/dictation-kit-master/model/phone_m/logicalTri           #HMMListファイル
+-n 1                                      #n個の文仮説数が見つかるまで検索を行う
+-output 1                                 #見つかったN-best候補のうち、結果として出力する個数
+#-input stdin                                #マイクからの直接入力
+-input mic                                #マイクからの直接入力
+#-input alsa                                #オープンサウンドシステム使用
+-charconv euc-jp utf8                     #出力文字コードの変換(内部euc-jp, 出力utf-8)
+-rejectshort 600                          #検出された入力の時間(msec)が閾値以下なら棄却
+-lv 1500                                  #入力の振幅レベルのしきい値(0から32767の範囲。デフォルトは2000)
+# -zmean
