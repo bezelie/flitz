@@ -9,6 +9,7 @@ echo "Step0= setting snd-pcm-oss"
 sudo apt-get -y install osspd-alsa
 sudo sed -i -e 's/snd-pcm-oss//' /etc/modules
 # for ALSA
+sudo apt-get install aptitude
 sudo aptitude install libasound2-dev
 #sudo apt-get -y install libasound2-dev
 
