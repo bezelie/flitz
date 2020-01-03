@@ -6,7 +6,7 @@ import picamera.array                  # カメラ用モジュール
 import cv2                             # Open CVモジュール    
 import bezelie                         # べゼリー専用サーボ制御モジュール
 
-cascade_path =  "/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml" # 顔認識xml
+cascade_path =  "haarcascade_frontalface_alt.xml" # 顔認識xml
 cascade = cv2.CascadeClassifier(cascade_path)
 
 # サーボの準備
