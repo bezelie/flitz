@@ -9,8 +9,8 @@ echo "Step0= setting snd-pcm-oss"
 sudo apt-get -y install osspd-alsa
 sudo sed -i -e 's/snd-pcm-oss//' /etc/modules
 # for ALSA
-sudo aptitude install libasound2-dev
-#sudo apt-get -y install libasound2-dev
+#sudo aptitude install libasound2-dev
+sudo apt-get -y install libasound2-dev
 
 echo "Step1= installing Julius"
 cd
