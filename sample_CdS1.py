@@ -49,14 +49,16 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
 GPIO.setmode(GPIO.BCM)
 
 # 変数
-value = 1000               # 入力値がこの値を下回ると反応する
+value = 2000               # 入力値がこの値を下回ると反応する
 
 # 定数
 ttsJpn = "exec_talkJpn.sh" # 発話シェルスクリプトのファイル名
+ttsEng = "exec_talkEng.sh" # 英語発話シェルスクリプトのファイル名
 SPICLK = 11
 SPIMOSI = 10
 SPIMISO = 9
 SPICS = 8
+
 # SPI通信用の入出力を定義
 GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -71,11 +73,14 @@ def main():
       inputVal0 = readadc(0, SPICLK, SPIMOSI, SPIMISO, SPICS)
       print("input = "+str(inputVal0))
       if inputVal0 < value:              # しきい値は条件によって変えてください。
+        print ("      dark")
         bez.movePitch(1, 20)            # 上を向く
         subprocess.call("sh "+ttsJpn+" "+"くらいよお", shell=True)
         sleep(0.5)
         bez.movePitch(1, 0)
         sleep(0.5)
+      else:
+        print ("bright")
       sleep(1)
 
   except KeyboardInterrupt:

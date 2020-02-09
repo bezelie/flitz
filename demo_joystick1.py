@@ -10,6 +10,11 @@ import bezelie
 import subprocess          # 外部プロセスを実行するモジュール
 import sys
 
+# 準備
+bez = bezelie.Control()               # べゼリー操作インスタンスの生成
+bez.moveCenter()                      # サーボをセンタリング
+sleep(0.5)
+
 # MCP3204からSPI通信で12ビットのデジタル値を取得。
 def readadc(adcnum, clockpin, mosipin, misopin, cspin):
     if adcnum > 7 or adcnum < 0:
@@ -42,13 +47,9 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
     return adcout
 
 # 初期設定
-bez = bezelie.Control()               # べゼリー操作インスタンスの生成
-bez.moveCenter()                      # サーボをセンタリング
-#GPIO.cleanup()                     # ポートをクリア
 GPIO.setmode(GPIO.BCM)
 pinSwitch = 26
 GPIO.setup(pinSwitch, GPIO.IN, pull_up_down=GPIO.PUD_UP)  
-sleep(0.5)
 
 # 変数
 ttsJpn = "exec_talkJpn.sh" # 日本語発話シェルスクリプトのファイル名
@@ -74,19 +75,15 @@ def main():
       print("X= "+str(axisX), end="\t")
       bez.moveYaw(1,axisX,0.1)
       axisY = readadc(2, SPICLK, SPIMOSI, SPIMISO, SPICS)
-      axisY = int((axisY-2100)*15/2000*(-1))+5
+      axisY = int((axisY-2100)*15/2000*(-1))
       print("Y= "+str(axisY), end="\t")
       bez.movePitch(1,axisY,0.1)
       if GPIO.input(pinSwitch)==GPIO.LOW:
         print ("switch = on")
-        bez.moveRoll(1,10,0.1)
-        cmds = ['sh',ttsJpn, 'それはなんですか？'] # コマンドリストの作成
-        proc = subprocess.Popen(cmds, stdout=subprocess.PIPE) # コマンドの呼び出し
-        proc.communicate() # コマンド実行プロセスが終了するまで待機
-        bez.moveRoll(1,0,0.1)
+        bez.act(1,"rollRightMax")
+        subprocess.call("sh "+ttsJpn+" "+"それはなんですか？", shell=True)
       else:
         print ("switch = off")
-      sleep(0.5)
 
   except KeyboardInterrupt:
     print ("終了しました")
