@@ -10,7 +10,7 @@ fi
 
 HTSVOICE=/usr/share/hts-voice/mei/mei_normal.htsvoice # 音声データファイル名
 DICDIRE=/var/lib/mecab/dic/open-jtalk/naist-jdic/ # 形態素解析ソフトMeCabの辞書ディレクトリ名
-VOICEDATA=/tmp/voice.wav # 生成する音声合成データファイル名
+VOICEDATA=voice.wav # 生成する音声合成データファイル名
 sudo echo "$1" | open_jtalk \
 -x $DICDIRE \
 -m $HTSVOICE \

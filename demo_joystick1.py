@@ -69,15 +69,21 @@ GPIO.setup(SPICS, GPIO.OUT)
 def main():
   try:
     print ("開始します")
+    axisXbefore = 0
+    axisYbefore = 0
     while True:
       axisX = readadc(1, SPICLK, SPIMOSI, SPIMISO, SPICS)
       axisX = int((axisX-2200)*30/2000)
       print("X= "+str(axisX), end="\t")
-      bez.moveYaw(1,axisX,0.1)
+      if abs(axisX - axisXbefore)>4:
+        bez.moveYaw(1,axisX,0.1)
+        axisXbefore = axisX
       axisY = readadc(2, SPICLK, SPIMOSI, SPIMISO, SPICS)
       axisY = int((axisY-2100)*15/2000*(-1))
       print("Y= "+str(axisY), end="\t")
-      bez.movePitch(1,axisY,0.1)
+      if abs(axisY - axisYbefore)>4:
+        bez.movePitch(1,axisY,0.1)
+        axisYbefore = axisY
       if GPIO.input(pinSwitch)==GPIO.LOW:
         print ("switch = on")
         bez.act(1,"rollRightMax")
